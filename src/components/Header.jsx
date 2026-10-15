@@ -1,15 +1,15 @@
-const Header = ({ filtrarPorCategoria }) => {
+const Header = ({ filtrarPorCategoria, ordenarProdutos, pesquisarProdutos }) => {
   return (
     <header className="flex items-center justify-between px-15 py-4 bg-[#060608]">
       <div>
-        <input
+        <input onChange = {(event) => pesquisarProdutos(event.target.value)}
           type="text"
           placeholder="Digite o nome do produto"
           className="w-120 h-10 rounded bg-white pl-4"
         />
       </div>
       <div className="flex gap-4">
-        <select onChange={(event) => filtrarPorCategoria(event.target.value)} 
+        <select onChange = {(event) => filtrarPorCategoria(event.target.value)} 
         className="h-10 rounded bg-white pl-4">
           <option selected disabled>Filtrar produtos</option>
           <option>All</option>
@@ -18,7 +18,7 @@ const Header = ({ filtrarPorCategoria }) => {
           <option>Electronics</option>
           <option>Jewelery</option>
         </select>
-        <select 
+        <select onChange={(event) => ordenarProdutos(event.target.value)}
         className="h-10 rounded bg-white pl-4">
           <option selected disabled>Ordenar produtos</option>
           <option value="maiorPreco">Ordenar por maior preço</option>

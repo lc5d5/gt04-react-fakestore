@@ -7,24 +7,61 @@ import Header from "./components/Header";
 const App = () => {
 
   const [produtos, setProdutos] = useState([]); // usar set antes de qualquer variável modificadora
+  const [produtosFiltrados, setProdutosFiltrados] = useState([]);
   
   function buscarProdutos(){
     fetch("https://fakestoreapi.com/products") // retorna readable stream
     .then((response) => {return response.json()}) // converte pra .json
     .then((response) => { 
         setProdutos(response)
+        setProdutosFiltrados(response)
     })
   }
 
   function filtrarPorCategoria(categoria){
     if (categoria != "All"){
-        let filtrados = produtos.filter((produto) => {
-        return produto.category == categoria.toLowerCase();
+        let produtosFiltrados = produtos.filter((produto) => {
+          return produto.category == categoria.toLowerCase();
     });
-    setProdutos(filtrados);
+    setProdutosFiltrados(produtosFiltrados);
 
     } else{
-        setProdutos(produtos);
+      setProdutosFiltrados(produtos);
+    }
+  }
+
+  function ordenarProdutos(ordem){ 
+    let produtosOrdenados = [];
+
+    if (ordem == "menorPreco"){
+        produtosOrdenados = produtosFiltrados.toSorted((prodA, prodB) => {
+            return prodA.price - prodB.price;
+        });
+    } else if(ordem == "maiorPreco"){
+        produtosOrdenados = produtosFiltrados.toSorted((prodA, prodB) => {
+            return prodB.price - prodA.price;
+        })
+    } else{
+        produtosOrdenados = produtos.toSorted((prodA, prodB) => {
+            return prodB.rating.rate - prodA.rating.rate;
+        })
+    }
+    setProdutosFiltrados(produtosOrdenados);
+}
+
+  function pesquisarProdutos(texto){
+      console.log(texto);
+
+    if (texto.length == 0){
+        setProdutosFiltrados(produtos);
+        return;
+    }
+
+    if(texto.length >= 3){
+        let produtosEncontrados = produtos.filter((produto) => {
+        return produto.title.toLowerCase().includes(texto.toLowerCase());
+    });
+    setProdutosFiltrados(produtosEncontrados);
     }
   }
 
@@ -34,11 +71,14 @@ useEffect(() => {
 
   return (
     <>
-      <Header filtrarPorCategoria={filtrarPorCategoria} />
+      <Header 
+        filtrarPorCategoria={filtrarPorCategoria} 
+        ordenarProdutos={ordenarProdutos}
+        pesquisarProdutos={pesquisarProdutos}/>
       <main className="p-15">
         <div className="grid grid-cols-4 gap-4">
           {
-            produtos.map((produto) => (
+            produtosFiltrados.map((produto) => (
               <Card
           key={produto.id} 
           title={produto.title}
