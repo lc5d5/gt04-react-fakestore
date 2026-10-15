@@ -75,8 +75,8 @@ useEffect(() => {
         filtrarPorCategoria={filtrarPorCategoria} 
         ordenarProdutos={ordenarProdutos}
         pesquisarProdutos={pesquisarProdutos}/>
-      <main className="p-15">
-        <div className="grid grid-cols-4 gap-4">
+      <main className="p-4 lg:p-15">
+        <div className="grid lg:grid-cols-4 gap-4">
           {
             produtosFiltrados.map((produto) => (
               <Card
