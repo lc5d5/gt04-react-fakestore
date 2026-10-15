@@ -1,6 +1,6 @@
 const Header = ({ filtrarPorCategoria, ordenarProdutos, pesquisarProdutos }) => {
   return (
-    <header className="flex items-center justify-between px-15 py-4 bg-[#060608]">
+    <header className="lg:flex items-center justify-between px-15 py-4 bg-[#060608]">
       <div classNameName="mb-4 md:mb-0">
         <input onChange = {(event) => pesquisarProdutos(event.target.value)}
           type="text"
